@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+
+  <!-- dayJs -->
+  <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+
+  <script>
+    //
+    // OnLoad
+    //
+    window.onload = function () {
+      // Get the query string
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(urlSearchParams.entries());
+
+      // If there are dates in the query string, use those, otherwise use the default date
+      if (params.date_start) {
+        document.getElementById("date_start").value = params.date_start
+      } else {
+        document.getElementById("date_start").value = dayjs().startOf("week").subtract(1, "week").format("YYYY-MM-DD");
+      }
+
+      // If there are dates in the query string, use those, otherwise use the default date
+      if (params.date_end) {
+        document.getElementById("date_end").value = params.date_end
+      } else {
+        document.getElementById("date_end").value = dayjs().startOf('week').subtract(1, 'minute').format('YYYY-MM-DD');
+      }
+
+    };
+
+    // onChange Start Date
+    function change_start_date() {
+      let date_start = document.getElementById('date_start').value;
+      let date_end = document.getElementById('date_end').value;
+
+      // If end date is less than start date, reset end date
+      if (date_end < date_start) document.getElementById('date_end').value = null;
+
+      // Set the minimum of End Date to whatever Start Date is set toq
+      document.getElementById('date_end').min = document.getElementById('date_start').value
+    }
+
+    // onChange End Date
+    function change_end_date() {
+      let date_start = document.getElementById('date_start').value;
+      let date_end = document.getElementById('date_end').value;
+
+      // If end date is less than start date, reset end date
+      if (date_start > date_start) document.getElementById('date_start').value = null;
+
+      // Set the minimum of End Date to whatever Start Date is set to
+      document.getElementById('date_end').max = document.getElementById('date_start').value
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container-md">
+
+    <!-- Form for choosing dates -->
+    <form action="https://apilocation" id="form" name="form" method="GET" class="needs-validation" novalidate>
+      <div class="row mb-3">
+        <div class="col-sm-1 align-self-center">Start Date</div>
+        <div class="col-sm-2"><input type="date" class="form-control" id="date_start" name="date_start" value="" required></div>
+        <div class="col-sm-1 align-self-center">End Date</div>
+        <div class="col-sm-2"><input type="date" class="form-control" id="date_end" name="date_end" value="" required></div>
+        <div class="col-2"><button id="getFiles_button" class="btn btn-primary" type="submit">Update</button></div>
+      </div>
+    </form>
+    <br><br>
+
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Date Added</th>
+          <th scope="col">Custom Text 40</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let candidate of it.data) { %>
+        <tr>
+          <td><%= candidate.name %></td>
+          <td><%= candidate.dateAdded %></td>
+          <td><%= candidate.customText40 %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bootstrap bundle-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>
