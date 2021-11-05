@@ -92,14 +92,11 @@ exports.handler = async (event, context, callback) => {
         // Run Lambda for bhAuth
         container.messagesAry.push(await runBhAuth(container));
 
-        // Get some general Bullhorn info (used to test that the login is working)
-        container.messagesAry.push(await getBhInfo(container));
-
         // Run search
-        container.messagesAry.push(await runSearch(container));
+        container.messagesAry.push(await getBhData(container));
 
         // Render HTML
-        let html = await Eta.renderFile("template.eta", container.searchData);
+        let html = await Eta.renderFile("template.eta", container.BhData);
 
         // Return the HTML
         callback(null, {
@@ -201,61 +198,29 @@ function runBhAuth(container) {
     });
 }
 
-function getBhInfo(container) {
+function getBhData(container) {
     return new Promise(function (resolve, reject) {
         let message = {
-            functionName: "getBhInfo",
+            functionName: "getBhData",
             status: "starting",
             duration: new Date(),
         };
 
         let config = {
             method: "get",
-            url: "/settings/corporationId,corporationName,userId,bboName,deptId,allPrivateLabelIds,userTypeId,privateLabelId,userDepartments",
-        };
-        message.url = config.url;
-
-        axiosBH(config)
-            .then((response) => {
-                container.bhInfo = response.data;
-
-                // Mark success
-                let fullResponse = axiosLogging(response, null);
-                message.status = fullResponse.status;
-                message.statusText = fullResponse.statusText;
-                message.AxiosDuration = fullResponse.duration;
-                message.duration = new Date() - message.duration;
-
-                // Return to Handler
-                resolve(message);
-            })
-            .catch((error) => {
-                console.error(error.response);
-                message.status = "error";
-                message.error = error.response;
-
-                // Return to Handler, with error
-                reject(error);
-            });
-    });
-}
-
-function runSearch(container) {
-    return new Promise(function (resolve, reject) {
-        let message = {
-            functionName: "runSearch",
-            status: "starting",
-            duration: new Date(),
-        };
-
-        let config = {
-            method: "get",
-            url: "/search/Candidate?fields=id,name,dateAdded,customText40&count=50&sort=id&query=id:[* TO *]",
+            url: `/entity/Candidate/${container.event.queryStringParameters.EntityID}?layout=RecordEdit&fields=type,companyName,experience,travelLimit,willRelocate,hourlyRateLow,hourlyRate`,
         };
 
         axiosBH(config)
             .then((response) => {
-                container.searchData = response.data;
+                container.BhData = response.data.data;
+
+                // Replace nulls in BhData with empty strings
+                for (let key in container.BhData) {
+                    if (container.BhData[key] === null) {
+                        container.BhData[key] = "";
+                    }
+                }
 
                 // Log the results
                 message.total = response.data.total;
@@ -282,80 +247,6 @@ function runSearch(container) {
                 // Return to Handler, with error
                 reject(error);
             });
-    });
-}
-
-function runLoopUpdate(container) {
-    return new Promise(function (resolve, reject) {
-        let message = {
-            functionName: "runLoopUpdate",
-            status: "starting",
-            duration: new Date(),
-        };
-        // This assumes there is an array in container that holds data we need to loop through to run updates
-        // Purposely set to customText1000 so it won't work until you set it properly
-
-        // Setup array to hold promises
-        var tmp = [];
-
-        // Loop through updates to be run
-        for (let update of container.updateData) {
-            // Add the promise
-            tmp.push(
-                new Promise(function (resolve, reject) {
-                    let data = JSON.stringify({ customText1000: update.userName });
-                    let config = {
-                        method: "post",
-                        url: `/entity/Candidate/${update.candidateID}`,
-                        data: data,
-                    };
-
-                    axiosBH(config)
-                        .then((response) => {
-                            // Setup return value
-                            return resolve(`${update.candidateID}-${update.userName}: ${response.statusText}`);
-                        })
-                        .catch((error) => {
-                            console.error(error.response);
-                            return reject(new Error(error.statusCode));
-                        });
-                })
-            );
-        }
-
-        // Wait for all promises to complete
-        Promise.all(tmp)
-            .then((values) => {
-                // Put our return values into the container for troubleshooting and logging purposes
-                container.returnValue = values;
-
-                message.status = "success";
-                message.duration = new Date() - message.duration;
-
-                // Return to Handler
-                return resolve(message);
-            })
-            .catch(function () {
-                message.status = "error";
-
-                // Stop everything and surface the error
-                // Return to Handler, with error
-                return reject();
-            });
-    });
-}
-
-function emptyFunction(container) {
-    return new Promise(function (resolve, reject) {
-        let message = {
-            functionName: "emptyFunction",
-            status: "starting",
-            duration: new Date(),
-        };
-
-        message.status = "success";
-        message.duration = new Date() - message.duration;
-        return resolve(message);
     });
 }
 

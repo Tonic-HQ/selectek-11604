@@ -63,39 +63,190 @@
 </head>
 
 <body>
-  <div class="container-md">
-
-    <!-- Form for choosing dates -->
-    <form action="https://apilocation" id="form" name="form" method="GET" class="needs-validation" novalidate>
-      <div class="row mb-3">
-        <div class="col-sm-1 align-self-center">Start Date</div>
-        <div class="col-sm-2"><input type="date" class="form-control" id="date_start" name="date_start" value="" required></div>
-        <div class="col-sm-1 align-self-center">End Date</div>
-        <div class="col-sm-2"><input type="date" class="form-control" id="date_end" name="date_end" value="" required></div>
-        <div class="col-2"><button id="getFiles_button" class="btn btn-primary" type="submit">Update</button></div>
-      </div>
+<h1 class="display-4 d-flex justify-content-center">Intake Form</h1>
+<div class="container px-5 my-5">
+    <form action="https://apps.tonichq.io/11604/intake" id="form" name="form" method="GET" class="needs-validation" novalidate>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="firstName" type="text" placeholder="First Name" data-sb-validations="required" value="<%= it.firstName %>" />
+            <label for="name">First Name</label>
+            <div class="invalid-feedback" data-sb-feedback="name:required">First Name is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="lastName" type="text" placeholder="Last Name" data-sb-validations="required" value="<%= it.lastName %>" />
+            <label for="name">Last Name</label>
+            <div class="invalid-feedback" data-sb-feedback="name:required">Last Name is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="address" type="text" placeholder="Address" data-sb-validations="required" value="<%= it.address.address1 || '' %>" />
+            <label for="address">Address</label>
+            <div class="invalid-feedback" data-sb-feedback="address:required">Address is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="city" type="text" placeholder="City" data-sb-validations="required" value="<%= it.address.city || '' %>" />
+            <label for="city">City</label>
+            <div class="invalid-feedback" data-sb-feedback="city:required">City is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="state" type="text" placeholder="State" data-sb-validations="required" value="<%= it.address.state || '' %>" />
+            <label for="state">State</label>
+            <div class="invalid-feedback" data-sb-feedback="state:required">State is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="zip" type="text" placeholder="ZIP" data-sb-validations="required" value="<%= it.address.zip || '' %>" />
+            <label for="zip">ZIP</label>
+            <div class="invalid-feedback" data-sb-feedback="zip:required">ZIP is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="phone" type="text" placeholder="Phone" data-sb-validations="required" value="<%= it.phone || '' %>" />
+            <label for="phone">Phone</label>
+            <div class="invalid-feedback" data-sb-feedback="phone:required">Phone is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="emailAddress" type="email" placeholder="Email Address" data-sb-validations="required,email" value="<%= it.email || '' %>" />
+            <label for="emailAddress">Email Address</label>
+            <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
+            <div class="invalid-feedback" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="disciplineSkillset" type="text" placeholder="Discipline/Skillset" data-sb-validations="" value="<%= it.type || '' %>" />
+            <label for="disciplineSkillset">Discipline/Skillset</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whereAreYouCurrentlyWorking" type="text" placeholder="Where are you currently working?" data-sb-validations="" value="<%= it.companyName || '' %>" />
+            <label for="whereAreYouCurrentlyWorking">Where are you currently working?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="howLongHaveYouBeenThere" type="text" placeholder="How long have you been there?" data-sb-validations="" value="<%= it.experience || '' %>" />
+            <label for="howLongHaveYouBeenThere">How long have you been there?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whatWereYourJobDuties" type="text" placeholder="What were your job duties?" data-sb-validations="" />
+            <label for="whatWereYourJobDuties">What were your job duties?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whatDidYouLikeAndDislikeAboutTheJob" type="text" placeholder="What did you like and dislike about the job?" data-sb-validations="" />
+            <label for="whatDidYouLikeAndDislikeAboutTheJob">What did you like and dislike about the job?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whyAreYouLookingToLeaveWhyDidYouLeave" type="text" placeholder="Why are you looking to leave / why did you leave?" data-sb-validations="" />
+            <label for="whyAreYouLookingToLeaveWhyDidYouLeave">Why are you looking to leave / why did you leave?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="directSupervisorSName" type="text" placeholder="Direct Supervisor(s) name" data-sb-validations="" />
+            <label for="directSupervisorSName">Direct Supervisor(s) name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whenAreYouLookingToStartANewJob" type="text" placeholder=" When are you looking to start a new job?" data-sb-validations="" />
+            <label for="whenAreYouLookingToStartANewJob"> When are you looking to start a new job?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="howFarFromYourHomeAddressAreYouWillingToDriveForAJob" type="text" placeholder=" How far from your home address are you willing to drive for a job?" data-sb-validations="" value="<%= it.travelLimit || '' %>" />
+            <label for="howFarFromYourHomeAddressAreYouWillingToDriveForAJob"> How far from your home address are you willing to drive for a job?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="areYouWillingToRelocateIfSoWhere" type="text" placeholder=" Are you willing to relocate, if so, where?" data-sb-validations="" />
+            <label for="areYouWillingToRelocateIfSoWhere"> Are you willing to relocate, if so, where?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="doYouCurrentlyWorkFullTimeOrPartTime" type="text" placeholder="Do you currently work full time or part time?" data-sb-validations="" />
+            <label for="doYouCurrentlyWorkFullTimeOrPartTime">Do you currently work full time or part time?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="areYouHourlyOrSalary" type="text" placeholder="Are you hourly or salary?" data-sb-validations="" />
+            <label for="areYouHourlyOrSalary">Are you hourly or salary?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="howMuchAreYouPaid" type="text" placeholder="  How much are you paid?" data-sb-validations="" />
+            <label for="howMuchAreYouPaid"> How much are you paid?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="howMuchAreYouLookingToMakeInYourNextJob" type="text" placeholder=" How much are you looking to make in your next job?" data-sb-validations="" />
+            <label for="howMuchAreYouLookingToMakeInYourNextJob"> How much are you looking to make in your next job?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="whyAreYouCurrentlyLookingForANewJobCompellingReasonForChange" type="text" placeholder=" Why are you currently looking for a new job (compelling reason for change)?" data-sb-validations="" />
+            <label for="whyAreYouCurrentlyLookingForANewJobCompellingReasonForChange"> Why are you currently looking for a new job (compelling reason for change)?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="whatKindOfExperienceDoYouHaveWithRequirementXYZWorkOrSchoolEnvironment" type="text" placeholder="What kind of experience do you have with requirement x, y, z? (Work or school environment?)" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="whatKindOfExperienceDoYouHaveWithRequirementXYZWorkOrSchoolEnvironment">What kind of experience do you have with requirement x, y, z? (Work or school environment?)</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="whatKindOfDegreeSCertificationSDoYouHave" type="text" placeholder="What kind of Degree(s)/Certification(s) do you have?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="whatKindOfDegreeSCertificationSDoYouHave">What kind of Degree(s)/Certification(s) do you have?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="withYourBackgroundWhatWouldYouConsiderYourStrengthsToBeNewField31" type="text" placeholder="With your background what would you consider your strengths to be? New Field 31" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="withYourBackgroundWhatWouldYouConsiderYourStrengthsToBeNewField31">With your background what would you consider your strengths to be? New Field 31</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="isThereACertainFieldYouAreTargetingOrWhatKindOfEnvironmentDoYouSeeYourselfInMepFirmConsultingManufacturing" type="text" placeholder="Is there a certain field you are targeting? Or what kind of environment do you see yourself in (MEP firm, consulting, manufacturing, …)" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="isThereACertainFieldYouAreTargetingOrWhatKindOfEnvironmentDoYouSeeYourselfInMepFirmConsultingManufacturing">Is there a certain field you are targeting? Or what kind of environment do you see yourself in (MEP firm, consulting, manufacturing, …)</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="haveYouEverWorkedThroughAStaffingCompanyIfSoWhereYesNo" type="text" placeholder="Have you ever worked through a staffing company? If so, where? YES/NO" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="haveYouEverWorkedThroughAStaffingCompanyIfSoWhereYesNo">Have you ever worked through a staffing company? If so, where? YES/NO</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="areYouWillingToTakeATtpContractOrDoesItHaveToBeAPermJobYesNo" type="text" placeholder="Are you willing to take a TTP, contract, or does it have to be a perm job? YES/NO" data-sb-validations="" />
+            <label for="areYouWillingToTakeATtpContractOrDoesItHaveToBeAPermJobYesNo">Are you willing to take a TTP, contract, or does it have to be a perm job? YES/NO</label>
+        </div>
+        <div class="mb-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="areYouSpeakingWithAnyOtherStaffingCompaniesRightNow" type="checkbox" name="areYouSpeakingWithAnyOtherStaffingCompaniesRightNow" />
+                <label class="form-check-label" for="areYouSpeakingWithAnyOtherStaffingCompaniesRightNow">Are you speaking with any other staffing companies right now?</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" id="haveYouRecentlyAppliedOrSubmittedYourResumeAnywhereYetOnYourOwnOrThroughAStaffingCompany" type="checkbox" name="haveYouRecentlyAppliedOrSubmittedYourResumeAnywhereYetOnYourOwnOrThroughAStaffingCompany" />
+                <label class="form-check-label" for="haveYouRecentlyAppliedOrSubmittedYourResumeAnywhereYetOnYourOwnOrThroughAStaffingCompany">Have you recently applied or submitted your resume anywhere yet (on your own or through a staffing company)?</label>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="haveYouHadAnyRecentInterviewsIfSoWhere" type="text" placeholder="Have you had any recent interviews? If so, where?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="haveYouHadAnyRecentInterviewsIfSoWhere">Have you had any recent interviews? If so, where?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="doYouHaveAnyUpcomingScheduledInterviewsIfSoWhere" type="text" placeholder="Do you have any upcoming scheduled interviews? If so, where?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="doYouHaveAnyUpcomingScheduledInterviewsIfSoWhere">Do you have any upcoming scheduled interviews? If so, where?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="doYouHaveAnyPendingJobOffersIfSoWhere" type="text" placeholder="Do you have any pending job offers? If so, where?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="doYouHaveAnyPendingJobOffersIfSoWhere">Do you have any pending job offers? If so, where?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="haveYouTurnedDownAnyPositionsLatelyIfSoWhy" type="text" placeholder="Have you turned down any positions lately? If so, why?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="haveYouTurnedDownAnyPositionsLatelyIfSoWhy">Have you turned down any positions lately? If so, why?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="areThereAnyCompaniesYouWouldNotWantUsSendingYourResumeTo" type="text" placeholder="Are there any companies you would not want us sending your resume to?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="areThereAnyCompaniesYouWouldNotWantUsSendingYourResumeTo">Are there any companies you would not want us sending your resume to?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="areThereAnyCompaniesYouWouldNotWantUsSendingYourResumeTo" type="text" placeholder="Are there any companies you would not want us sending your resume to?" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="areThereAnyCompaniesYouWouldNotWantUsSendingYourResumeTo">Are there any companies you would not want us sending your resume to?</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="supervisorReferencesWeAreNotLookingForPersonalButWhoTheyReportedToWhenWorking" type="text" placeholder="Supervisor/References: (we are not looking for personal but who they reported to when working)" style="height: 10rem;" data-sb-validations=""></textarea>
+            <label for="supervisorReferencesWeAreNotLookingForPersonalButWhoTheyReportedToWhenWorking">Supervisor/References: (we are not looking for personal but who they reported to when working)</label>
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+        <div class="d-none" id="submitErrorMessage">
+            <div class="text-center text-danger mb-3">Error sending message!</div>
+        </div>
+        <div class="d-grid">
+            <!-- <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button> -->
+        </div>
     </form>
-    <br><br>
-
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Date Added</th>
-          <th scope="col">Custom Text 40</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for (let candidate of it.data) { %>
-        <tr>
-          <td><%= candidate.name %></td>
-          <td><%= candidate.dateAdded %></td>
-          <td><%= candidate.customText40 %></td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
-  </div>
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
   <!-- Bootstrap bundle-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
