@@ -208,7 +208,7 @@ function getBhData(container) {
 
         let config = {
             method: "get",
-            url: `/entity/Candidate/${container.event.queryStringParameters.EntityID}?layout=RecordEdit&fields=type,companyName,experience,travelLimit,willRelocate,hourlyRateLow,hourlyRate`,
+            url: `/entity/Candidate/${container.event.queryStringParameters.EntityID}?meta=basic&layout=RecordEdit&fields=type,companyName,willRelocate,desiredLocations,hourlyRateLow,hourlyRate`,
         };
 
         axiosBH(config)
